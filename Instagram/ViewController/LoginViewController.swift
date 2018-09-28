@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
             // HUDで処理中を表示
             SVProgressHUD.show()
             
-            Auth.auth().signIn(withEmail: addredss, link: password) { (user, error) in
+            Auth.auth().signIn(withEmail: addredss, password: password) { (user, error) in
                 if let error = error {
                     print("DEBUG_PRINT: " + error.localizedDescription)
                     SVProgressHUD.showError(withStatus: "ログインに失敗しました")

@@ -53,6 +53,9 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         // 表示名を取得してTextFieldに設定する
         let user = Auth.auth().currentUser
         if let user = user {
