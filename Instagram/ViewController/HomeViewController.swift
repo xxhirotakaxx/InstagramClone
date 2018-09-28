@@ -26,7 +26,7 @@ class HomeViewController: UIViewController,
         tableView.register(nib, forCellReuseIdentifier: "Cell")
         
         // テーブル行の高さをAutoLayoutで自動調整する
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         // テーブル行の高さの概算値を設定しておく
         // 高さ概算値 = 「縦横比1:1のUIImageViewの高さ(=画面幅)」+「いいねボタン、キャプションラベル、その他余白の高さの合計概算(=100pt)」
         tableView.estimatedRowHeight = UIScreen.main.bounds.width + 100
@@ -110,6 +110,8 @@ class HomeViewController: UIViewController,
         
         // セル内のボタンのアクションをソースコードで設定する
         cell.likeButton.addTarget(self, action: #selector(handleButton(_:forEvent:)), for: .touchUpInside)
+        cell.handleComentButton.addTarget(self, action: #selector(comentButton(_:forEvent:)), for: .touchUpInside)
+        cell.showComentButton.addTarget(self, action: #selector(showComentButton(_:forEvent:)), for: .touchUpInside)
         
         return cell
     }
@@ -147,6 +149,36 @@ class HomeViewController: UIViewController,
             let likes = ["likes": postData.likes]
             postRef.updateChildValues(likes)
         }
+    }
+    
+    @objc func comentButton(_ sender: UIButton, forEvent event: UIEvent) {
+        print("DEBUG_PRINT: comentボタンがタップされました")
+        
+        let touch = event.allTouches?.first
+        let point = touch!.location(in: self.tableView)
+        let indexPath = tableView.indexPathForRow(at: point)
+        let postData = postArray[indexPath!.row]
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.roomId = postData.id
+        
+        let comentViewController = storyboard!.instantiateViewController(withIdentifier: "Coment") as? ComentViewController
+        self.present(comentViewController!, animated: true, completion: nil)
+    }
+    
+    @objc func showComentButton(_ sender: UIButton, forEvent event: UIEvent) {
+        print("DEBUG_PRINT: showComentボタンがタップされました")
+        
+        let touch = event.allTouches?.first
+        let point = touch!.location(in: self.tableView)
+        let indexPath = tableView.indexPathForRow(at: point)
+        let postData = postArray[indexPath!.row]
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.roomId = postData.id
+        
+        let watchViewController = storyboard!.instantiateViewController(withIdentifier: "Watch") as? WatchComentViewController
+        self.present(watchViewController!, animated: true, completion: nil)
     }
 
 }

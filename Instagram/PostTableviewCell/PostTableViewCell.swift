@@ -7,6 +7,9 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var likeLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var captionLabel: UILabel!
+    @IBOutlet weak var showComentButton: UIButton!
+    @IBOutlet weak var handleComentButton: UIButton!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

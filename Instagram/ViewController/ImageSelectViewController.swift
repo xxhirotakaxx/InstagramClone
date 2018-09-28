@@ -42,10 +42,13 @@ class ImageSelectViewController: UIViewController,
     }
     
     // 写真を撮影/選択したときに呼ばれるメソッド
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if info[UIImagePickerControllerOriginalImage] != nil {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+        if info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] != nil {
             // 撮影/選択された画像を取得する
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as! UIImage
             
             // あとでCLImageEditorライブラリで加工する
             print("DEBUG_PRINT: image = \(image)")
@@ -68,4 +71,14 @@ class ImageSelectViewController: UIViewController,
         postViewController.image = image!
         editor.present(postViewController, animated: true, completion: nil)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }
